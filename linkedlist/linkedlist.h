@@ -147,12 +147,15 @@ int LinkedList<T>::size() const{
 // get the n-th item in the LinkedList
 template <class T>
 T& LinkedList<T>::getItem(int n) const{
-
+  
   int count = 0;
   NodeT<T>* curr = root;
 
   // traverse in the LinkedList until the n-th item
   while (count != n){
+    if (curr->next == NULL)
+      break;
+    
     curr = curr->next;
     count++;
   }
@@ -197,11 +200,14 @@ void LinkedList<T>::insert(T x,int pos){
 template <class T>
 void LinkedList<T>::remove (int n){
 
+  if (root == NULL)
+    return;
+  
   // if n = 0, remove root
   if (n == 0){
     NodeT<T>* todelete = root;
     root = root->next;
-    delete [] todelete;
+    delete todelete;
     Size--;
     return;
   }
@@ -212,12 +218,16 @@ void LinkedList<T>::remove (int n){
   int count = 0;
   while (count != n){
     prev = curr;
+    
+    if (curr->next == NULL)
+      break;
+    
     curr = curr->next;
     count++;
   }
   
   prev->next = curr->next;
-  delete [] curr;
+  delete curr;
   Size--;
   return;
 }
